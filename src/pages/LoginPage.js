@@ -196,25 +196,14 @@ function LoginPage() {
               <Typography variant="body2" sx={{ color: '#666' }}>
                 Don't have an account?{' '}
                 <Link 
-                  to="/signup/buyer" 
+                  to="/signup" 
                   style={{ 
                     textDecoration: 'none',
                     color: '#1976d2',
                     fontWeight: 500
                   }}
                 >
-                  Sign up as Buyer
-                </Link>
-                {' or '}
-                <Link 
-                  to="/signup/seller" 
-                  style={{ 
-                    textDecoration: 'none',
-                    color: '#1976d2',
-                    fontWeight: 500
-                  }}
-                >
-                  Sign up as Seller
+                  Sign up
                 </Link>
               </Typography>
             </Box>

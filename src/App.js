@@ -7,6 +7,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import AdminLoginPage from './pages/AdminLoginPage';
+import SignupSelection from './pages/SignupSelection';
 import BuyerSignup from './pages/BuyerSignup';
 import SellerSignup from './pages/SellerSignup';
 import BuyerDashboard from './pages/BuyerDashboard';
@@ -109,6 +110,7 @@ function App() {
               } 
             />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupSelection />} />
             <Route path="/signup/buyer" element={<BuyerSignup />} />
             <Route path="/signup/seller" element={<SellerSignup />} />
             <Route 
