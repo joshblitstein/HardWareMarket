@@ -40,7 +40,6 @@ function SignupSelection() {
               fontSize: '2.5rem',
               mb: 2,
               color: '#ffffff',
-              fontFamily: '"Chakra Petch", sans-serif'
             }}
           >
             Join Nimbus Marketplace
@@ -50,7 +49,6 @@ function SignupSelection() {
             sx={{ 
               color: 'rgba(255,255,255,0.7)',
               fontWeight: 300,
-              fontFamily: '"Chakra Petch", sans-serif'
             }}
           >
             Choose your account type to get started
@@ -107,7 +105,6 @@ function SignupSelection() {
                     fontWeight: 600,
                     mb: 2,
                     color: '#ffffff',
-                    fontFamily: '"Chakra Petch", sans-serif'
                   }}
                 >
                   I'm a Buyer
@@ -118,7 +115,6 @@ function SignupSelection() {
                     color: 'rgba(255,255,255,0.7)',
                     mb: 3,
                     minHeight: 60,
-                    fontFamily: '"Chakra Petch", sans-serif'
                   }}
                 >
                   Browse listings, make offers, and purchase GPU servers from verified sellers
@@ -139,7 +135,6 @@ function SignupSelection() {
                       background: 'linear-gradient(90deg, #4C51BF 0%, #805AD5 100%)',
                       boxShadow: '0 8px 16px rgba(159, 122, 234, 0.3)',
                     },
-                    fontFamily: '"Chakra Petch", sans-serif'
                   }}
                 >
                   Sign up as Buyer
@@ -189,7 +184,6 @@ function SignupSelection() {
                     fontWeight: 600,
                     mb: 2,
                     color: '#ffffff',
-                    fontFamily: '"Chakra Petch", sans-serif'
                   }}
                 >
                   I'm a Seller
@@ -200,7 +194,6 @@ function SignupSelection() {
                     color: 'rgba(255,255,255,0.7)',
                     mb: 3,
                     minHeight: 60,
-                    fontFamily: '"Chakra Petch", sans-serif'
                   }}
                 >
                   List your GPU servers, manage inventory, and receive offers from buyers
@@ -221,7 +214,6 @@ function SignupSelection() {
                       background: 'linear-gradient(90deg, #4C51BF 0%, #805AD5 100%)',
                       boxShadow: '0 8px 16px rgba(159, 122, 234, 0.3)',
                     },
-                    fontFamily: '"Chakra Petch", sans-serif'
                   }}
                 >
                   Sign up as Seller
@@ -236,7 +228,6 @@ function SignupSelection() {
             variant="body2" 
             sx={{ 
               color: 'rgba(255,255,255,0.5)',
-              fontFamily: '"Chakra Petch", sans-serif'
             }}
           >
             Already have an account?{' '}
@@ -246,7 +237,6 @@ function SignupSelection() {
                 color: '#9F7AEA',
                 textTransform: 'none',
                 fontWeight: 500,
-                fontFamily: '"Chakra Petch", sans-serif',
                 '&:hover': {
                   backgroundColor: 'rgba(159, 122, 234, 0.1)',
                 }

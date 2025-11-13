@@ -283,7 +283,7 @@ function LandingPage() {
               label="NVIDIA"
               size="small"
               sx={{ 
-                backgroundColor: '#66bb6a',
+                backgroundColor: '#8547B7',
                 color: 'white',
                 fontWeight: 700,
                 fontSize: '0.65rem',
@@ -390,7 +390,7 @@ function LandingPage() {
             <Typography 
               sx={{ 
                 fontSize: '0.8125rem', 
-                color: '#4caf50',
+                color: '#8547B7',
                 fontWeight: 400,
                 mb: 0.75,
                 lineHeight: 1.3,
@@ -460,7 +460,7 @@ function LandingPage() {
               label="VERIFIED"
               size="small"
               sx={{ 
-                backgroundColor: '#2e7d32', 
+                backgroundColor: '#5D40BD', 
                 color: 'white', 
                 fontWeight: 700, 
                 fontSize: '0.65rem',
@@ -552,7 +552,7 @@ function LandingPage() {
               sx={{ 
                 fontSize: '1.125rem', 
                 fontWeight: 700,
-                color: '#1976d2',
+                color: '#8547B7',
                 letterSpacing: '-0.02em',
                 mt: 'auto',
                 pt: 2,
@@ -574,72 +574,107 @@ function LandingPage() {
         <Box
           sx={{
             width: 280,
-            backgroundColor: '#1a237e',
-            color: 'white',
+            backgroundColor: 'white',
+            color: '#212121',
             display: 'flex',
             flexDirection: 'column',
             position: 'fixed',
             height: '100vh',
             overflowY: 'auto',
+            borderRight: '1px solid rgba(0,0,0,0.12)',
+            boxShadow: '2px 0 8px rgba(0,0,0,0.1)',
           }}
         >
           {/* Logo */}
-          <Box sx={{ p: 3, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-            <Typography variant="h5" sx={{ fontWeight: 'bold', color: 'white' }}>
-              Nimbus
-            </Typography>
+          <Box sx={{ px: 3, pt: 3, pb: 2, borderBottom: '1px solid rgba(0,0,0,0.12)' }}>
+            <Box
+              component="img"
+              src="/logo.png"
+              alt="Nimbus Logo"
+              sx={{
+                height: 'auto',
+                maxWidth: '100%',
+                maxHeight: 60,
+                objectFit: 'contain',
+              }}
+            />
           </Box>
 
           {/* Navigation */}
-          <Box sx={{ flex: 1, p: 2 }}>
-            <Box sx={{ mb: 3 }}>
-              <Typography variant="subtitle2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1, px: 2 }}>
-                SERVICES
-              </Typography>
-              <Box sx={{ backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 1, p: 1 }}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    p: 1.5,
-                    borderRadius: 1,
-                    backgroundColor: 'rgba(255,255,255,0.2)',
-                  }}
-                >
-                  <Verified sx={{ mr: 2, fontSize: 20 }} />
-                  <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                    AI Hardware Marketplace
-                  </Typography>
-                </Box>
+          <Box sx={{ flex: 1, pl: 3, pr: 3, py: 2 }}>
+            <Box sx={{ mb: 4 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  py: 1.5,
+                  px: 1,
+                  borderRadius: 1,
+                  mb: 0.5,
+                  cursor: 'pointer',
+                  '&:hover': { backgroundColor: 'rgba(0,0,0,0.05)' },
+                }}
+              >
+                <Verified sx={{ 
+                  mr: 2, 
+                  fontSize: 20, 
+                  background: 'linear-gradient(135deg, #8547B7 0%, #5D40BD 50%, #AE42BB 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }} />
+                <Typography variant="body2" sx={{ color: '#212121' }}>
+                  AI Hardware Marketplace
+                </Typography>
               </Box>
               <Box
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  p: 1.5,
+                  py: 1.5,
+                  px: 1,
                   borderRadius: 1,
-                  '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' },
+                  mb: 0.5,
+                  cursor: 'pointer',
+                  '&:hover': { backgroundColor: 'rgba(0,0,0,0.05)' },
                 }}
               >
-                <Security sx={{ mr: 2, fontSize: 20 }} />
-                <Typography variant="body2">Browse Listings</Typography>
+                <Security sx={{ 
+                  mr: 2, 
+                  fontSize: 20, 
+                  background: 'linear-gradient(135deg, #8547B7 0%, #5D40BD 50%, #AE42BB 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }} />
+                <Typography variant="body2" sx={{ color: '#212121' }}>Browse Listings</Typography>
               </Box>
               <Box
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  p: 1.5,
+                  py: 1.5,
+                  px: 1,
                   borderRadius: 1,
-                  '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' },
+                  mb: 0.5,
+                  cursor: 'pointer',
+                  '&:hover': { backgroundColor: 'rgba(0,0,0,0.05)' },
                 }}
               >
-                <Speed sx={{ mr: 2, fontSize: 20 }} />
-                <Typography variant="body2">Make Offers</Typography>
+                <Speed sx={{ 
+                  mr: 2, 
+                  fontSize: 20, 
+                  background: 'linear-gradient(135deg, #8547B7 0%, #5D40BD 50%, #AE42BB 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }} />
+                <Typography variant="body2" sx={{ color: '#212121' }}>Make Offers</Typography>
               </Box>
             </Box>
 
-            <Box sx={{ mb: 3 }}>
-              <Typography variant="subtitle2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1, px: 2 }}>
+            <Box sx={{ mb: 4 }}>
+              <Typography variant="subtitle2" sx={{ color: 'rgba(0,0,0,0.6)', mb: 1.5, px: 1, fontSize: '0.75rem', fontWeight: 500, letterSpacing: '0.5px' }}>
                 MY RESOURCES
               </Typography>
               <Box
@@ -648,15 +683,24 @@ function LandingPage() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
-                  p: 1.5,
+                  py: 1.5,
+                  px: 1,
                   borderRadius: 1,
+                  mb: 0.5,
                   cursor: 'pointer',
-                  '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' },
+                  '&:hover': { backgroundColor: 'rgba(0,0,0,0.05)' },
                 }}
               >
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Visibility sx={{ mr: 2, fontSize: 20 }} />
-                  <Typography variant="body2">My Offers</Typography>
+                  <Visibility sx={{ 
+                    mr: 2, 
+                    fontSize: 20, 
+                    background: 'linear-gradient(135deg, #8547B7 0%, #5D40BD 50%, #AE42BB 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                  }} />
+                  <Typography variant="body2" sx={{ color: '#212121' }}>My Offers</Typography>
                 </Box>
                 {offersCount > 0 && (
                   <Badge
@@ -664,7 +708,7 @@ function LandingPage() {
                     color="primary"
                     sx={{
                       '& .MuiBadge-badge': {
-                        backgroundColor: '#42a5f5',
+                        backgroundColor: '#AE42BB',
                         color: 'white',
                         fontWeight: 600,
                       },
@@ -677,72 +721,97 @@ function LandingPage() {
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  p: 1.5,
+                  py: 1.5,
+                  px: 1,
                   borderRadius: 1,
+                  mb: 0.5,
                   cursor: 'pointer',
-                  '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' },
+                  '&:hover': { backgroundColor: 'rgba(0,0,0,0.05)' },
                 }}
               >
-                <AccountBalance sx={{ mr: 2, fontSize: 20 }} />
-                <Typography variant="body2">My Deals</Typography>
+                <AccountBalance sx={{ 
+                  mr: 2, 
+                  fontSize: 20, 
+                  background: 'linear-gradient(135deg, #8547B7 0%, #5D40BD 50%, #AE42BB 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }} />
+                <Typography variant="body2" sx={{ color: '#212121' }}>My Deals</Typography>
               </Box>
               <Box
                 onClick={() => navigate('/change-password')}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  p: 1.5,
+                  py: 1.5,
+                  px: 1,
                   borderRadius: 1,
+                  mb: 0.5,
                   cursor: 'pointer',
-                  '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' },
+                  '&:hover': { backgroundColor: 'rgba(0,0,0,0.05)' },
                 }}
               >
-                <Security sx={{ mr: 2, fontSize: 20 }} />
-                <Typography variant="body2">Change Password</Typography>
+                <Security sx={{ 
+                  mr: 2, 
+                  fontSize: 20, 
+                  background: 'linear-gradient(135deg, #8547B7 0%, #5D40BD 50%, #AE42BB 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }} />
+                <Typography variant="body2" sx={{ color: '#212121' }}>Change Password</Typography>
               </Box>
             </Box>
 
-            <Box sx={{ mb: 3 }}>
-              <Typography variant="subtitle2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1, px: 2 }}>
+            <Box sx={{ mb: 4 }}>
+              <Typography variant="subtitle2" sx={{ color: 'rgba(0,0,0,0.6)', mb: 1.5, px: 1, fontSize: '0.75rem', fontWeight: 500, letterSpacing: '0.5px' }}>
                 EXPLORE
               </Typography>
               <Box
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  p: 1.5,
+                  py: 1.5,
+                  px: 1,
                   borderRadius: 1,
-                  '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' },
+                  mb: 0.5,
+                  cursor: 'pointer',
+                  '&:hover': { backgroundColor: 'rgba(0,0,0,0.05)' },
                 }}
               >
-                <Typography variant="body2">Community</Typography>
+                <Typography variant="body2" sx={{ color: '#212121' }}>Community</Typography>
               </Box>
               <Box
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
-                  p: 1.5,
+                  py: 1.5,
+                  px: 1,
                   borderRadius: 1,
-                  '&:hover': { backgroundColor: 'rgba(255,255,255,0.1)' },
+                  mb: 0.5,
+                  cursor: 'pointer',
+                  '&:hover': { backgroundColor: 'rgba(0,0,0,0.05)' },
                 }}
               >
-                <Typography variant="body2">Documentation</Typography>
+                <Typography variant="body2" sx={{ color: '#212121' }}>Documentation</Typography>
               </Box>
             </Box>
           </Box>
 
           {/* Bottom Actions */}
           {!currentUser && (
-            <Box sx={{ p: 2, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+            <Box sx={{ px: 3, pb: 3, pt: 2 }}>
               <Button
                 variant="contained"
                 fullWidth
                 onClick={() => navigate('/login')}
                 sx={{
-                  backgroundColor: 'white',
-                  color: '#1a237e',
-                  mb: 1,
-                  '&:hover': { backgroundColor: 'rgba(255,255,255,0.9)' },
+                  backgroundColor: '#5D40BD',
+                  color: 'white',
+                  mb: 1.5,
+                  py: 1.5,
+                  '&:hover': { backgroundColor: '#4a35a0' },
                 }}
               >
                 Login
@@ -752,9 +821,10 @@ function LandingPage() {
                 fullWidth
                 onClick={() => navigate('/signup/buyer')}
                 sx={{
-                  borderColor: 'white',
-                  color: 'white',
-                  '&:hover': { borderColor: 'rgba(255,255,255,0.8)', backgroundColor: 'rgba(255,255,255,0.1)' },
+                  borderColor: '#5D40BD',
+                  color: '#5D40BD',
+                  py: 1.5,
+                  '&:hover': { borderColor: '#4a35a0', backgroundColor: 'rgba(93, 64, 189, 0.05)' },
                 }}
               >
                 Get Started
@@ -793,16 +863,16 @@ function LandingPage() {
               left: 280,
               right: 0,
               bottom: 0,
-              backgroundImage: `radial-gradient(2px 2px at 25% 25%, rgba(26, 35, 126, 0.1), transparent),
-                            radial-gradient(1px 1px at 75% 75%, rgba(63, 81, 181, 0.1), transparent),
-                            radial-gradient(1.5px 1.5px at 50% 50%, rgba(103, 58, 183, 0.1), transparent),
-                            radial-gradient(2px 2px at 10% 10%, rgba(26, 35, 126, 0.08), transparent),
-                            radial-gradient(1.5px 1.5px at 90% 90%, rgba(63, 81, 181, 0.08), transparent),
-                            radial-gradient(2px 2px at 30% 70%, rgba(103, 58, 183, 0.08), transparent),
-                            radial-gradient(1px 1px at 60% 40%, rgba(26, 35, 126, 0.1), transparent),
-                            radial-gradient(1.5px 1.5px at 85% 15%, rgba(63, 81, 181, 0.08), transparent),
-                            radial-gradient(2px 2px at 15% 85%, rgba(103, 58, 183, 0.08), transparent),
-                            radial-gradient(1px 1px at 45% 45%, rgba(26, 35, 126, 0.1), transparent)`,
+              backgroundImage: `radial-gradient(2px 2px at 25% 25%, rgba(93, 64, 189, 0.1), transparent),
+                            radial-gradient(1px 1px at 75% 75%, rgba(133, 71, 183, 0.1), transparent),
+                            radial-gradient(1.5px 1.5px at 50% 50%, rgba(174, 66, 187, 0.1), transparent),
+                            radial-gradient(2px 2px at 10% 10%, rgba(93, 64, 189, 0.08), transparent),
+                            radial-gradient(1.5px 1.5px at 90% 90%, rgba(133, 71, 183, 0.08), transparent),
+                            radial-gradient(2px 2px at 30% 70%, rgba(174, 66, 187, 0.08), transparent),
+                            radial-gradient(1px 1px at 60% 40%, rgba(93, 64, 189, 0.1), transparent),
+                            radial-gradient(1.5px 1.5px at 85% 15%, rgba(133, 71, 183, 0.08), transparent),
+                            radial-gradient(2px 2px at 15% 85%, rgba(174, 66, 187, 0.08), transparent),
+                            radial-gradient(1px 1px at 45% 45%, rgba(93, 64, 189, 0.1), transparent)`,
               backgroundSize:
                 '100% 100%, 50% 50%, 70% 70%, 40% 40%, 60% 60%, 30% 30%, 80% 80%, 55% 55%, 45% 45%, 65% 65%',
               backgroundPosition:
@@ -824,7 +894,7 @@ function LandingPage() {
           }}
         >
           {/* Top Banner */}
-          <Box
+          {/* <Box
             sx={{
               backgroundColor: '#424242',
               color: 'white',
@@ -842,7 +912,7 @@ function LandingPage() {
                 Try our mobile app!
               </Typography>
             </Box>
-          </Box>
+          </Box> */}
 
           {/* Breadcrumbs */}
           <Box sx={{ p: 3, backgroundColor: 'white', borderBottom: '1px solid #e0e0e0', position: 'relative', zIndex: 1 }}>
@@ -854,8 +924,8 @@ function LandingPage() {
           {/* Main Content */}
           <Container maxWidth="xl" sx={{ py: 4, position: 'relative', zIndex: 1 }}>
             {/* Featured */}
-            <Box mb={6}>
-              <Typography variant="h3" component="h1" gutterBottom fontWeight="bold" color="#1a237e">
+            {/* <Box mb={6}>
+              <Typography variant="h3" component="h1" gutterBottom fontWeight="bold" color="#5D40BD">
                 Featured AI Hardware
               </Typography>
               <Typography variant="h6" color="text.secondary" paragraph>
@@ -922,20 +992,20 @@ function LandingPage() {
                   variant="contained"
                   size="large"
                   sx={{
-                    backgroundColor: '#1a237e',
+                    backgroundColor: '#8547B7',
                     px: 4,
                     py: 1.5,
                     borderRadius: '25px',
                     textTransform: 'none',
                     fontSize: '1.1rem',
-                    '&:hover': { backgroundColor: '#0d47a1' },
+                    '&:hover': { backgroundColor: '#5D40BD' },
                   }}
                   onClick={() => document.getElementById('main-listings')?.scrollIntoView({ behavior: 'smooth' })}
                 >
                   View All Listings
                 </Button>
               </Box>
-            </Box>
+            </Box> */}
 
             {/* Filters */}
             <Box mb={4}>
@@ -1188,8 +1258,8 @@ function LandingPage() {
         </Box>
       </Box>
 
-      {/* Footer */}
-      <Box sx={{ backgroundColor: '#1a237e', color: 'white', py: 6 }}>
+      {/* Footer
+      <Box sx={{ backgroundColor: '#5D40BD', color: 'white', py: 6 }}>
         <Container maxWidth="lg">
           <Grid container spacing={4}>
             <Grid item xs={12} md={4}>
@@ -1321,7 +1391,7 @@ function LandingPage() {
             </Box>
           </Box>
         </Container>
-      </Box>
+      </Box> */}
     </>
   );
 }

@@ -25,7 +25,16 @@ import {
   CardContent,
   Badge,
 } from '@mui/material';
-import { CloudUpload, Verified } from '@mui/icons-material';
+import { 
+  CloudUpload, 
+  Verified, 
+  Add,
+  Dashboard,
+  LocalOffer,
+  Description,
+  LocalShipping,
+  Security,
+} from '@mui/icons-material';
 
 const steps = [
   'Server Photos',
@@ -653,7 +662,7 @@ function CreateListing() {
             <Typography variant="h6" gutterBottom sx={{ mb: 3, fontWeight: 600 }}>
               Review & Submit
             </Typography>
-            <Card sx={{ mb: 3, backgroundColor: '#f5f5f5' }}>
+            <Card sx={{ mb: 3, backgroundColor: 'white' }}>
               <CardContent>
                 <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600, mb: 2 }}>
                   Nimbus will review your listing to confirm:
@@ -699,150 +708,205 @@ function CreateListing() {
       <Box
         sx={{
           width: 280,
-          backgroundColor: '#1a237e',
-          color: 'white',
+          backgroundColor: 'white',
+          color: '#212121',
           display: 'flex',
           flexDirection: 'column',
           position: 'fixed',
           height: '100vh',
           overflowY: 'auto',
+          borderRight: '1px solid rgba(0,0,0,0.12)',
+          boxShadow: '2px 0 8px rgba(0,0,0,0.1)',
         }}
       >
-        <Box sx={{ p: 3, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-          <Typography variant="h5" sx={{ fontWeight: 'bold', color: 'white' }}>
-            Nimbus
-          </Typography>
+        {/* Logo */}
+        <Box sx={{ px: 3, pt: 3, pb: 2, borderBottom: '1px solid rgba(0,0,0,0.12)' }}>
+          <Box
+            component="img"
+            src="/logo.png"
+            alt="Nimbus Logo"
+            sx={{
+              height: 'auto',
+              maxWidth: '100%',
+              maxHeight: 60,
+              objectFit: 'contain',
+            }}
+          />
         </Box>
 
-        <Box sx={{ flex: 1, p: 2 }}>
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="subtitle2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1, px: 2 }}>
-              CREATE LISTING
-            </Typography>
-            <Box sx={{ backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 1, p: 1 }}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  p: 1.5,
-                  borderRadius: 1,
-                  backgroundColor: 'rgba(255,255,255,0.2)',
-                }}
-              >
-                <Verified sx={{ mr: 2, fontSize: 20 }} />
-                <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                  New Listing
-                </Typography>
-              </Box>
+        {/* Navigation */}
+        <Box sx={{ flex: 1, pl: 3, pr: 3, py: 2 }}>
+          <Box sx={{ mb: 4 }}>
+            <Box
+              onClick={() => navigate('/seller/create-listing')}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                py: 1.5,
+                px: 1,
+                borderRadius: 1,
+                mb: 0.5,
+                cursor: 'pointer',
+                backgroundColor: 'rgba(93, 64, 189, 0.1)',
+                '&:hover': { backgroundColor: 'rgba(93, 64, 189, 0.15)' },
+              }}
+            >
+              <Add sx={{ 
+                mr: 2, 
+                fontSize: 20, 
+                background: 'linear-gradient(135deg, #8547B7 0%, #5D40BD 50%, #AE42BB 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }} />
+              <Typography variant="body2" sx={{ color: '#212121', fontWeight: 500 }}>
+                Create Listing
+              </Typography>
+            </Box>
+            <Box
+              onClick={() => navigate('/seller/dashboard')}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                py: 1.5,
+                px: 1,
+                borderRadius: 1,
+                mb: 0.5,
+                cursor: 'pointer',
+                '&:hover': { backgroundColor: 'rgba(0,0,0,0.05)' },
+              }}
+            >
+              <Dashboard sx={{ 
+                mr: 2, 
+                fontSize: 20, 
+                background: 'linear-gradient(135deg, #8547B7 0%, #5D40BD 50%, #AE42BB 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }} />
+              <Typography variant="body2" sx={{ color: '#212121' }}>Dashboard</Typography>
             </Box>
           </Box>
-          
-          {/* Seller Tools Section */}
-          <Box sx={{ mt: 3 }}>
-            <Typography variant="subtitle2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1, px: 2 }}>
+
+          <Box sx={{ mb: 4 }}>
+            <Typography variant="subtitle2" sx={{ color: 'rgba(0,0,0,0.6)', mb: 1.5, px: 1, fontSize: '0.75rem', fontWeight: 500, letterSpacing: '0.5px' }}>
               SELLER TOOLS
             </Typography>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0.5 }}>
-              <Button
-                fullWidth
-                onClick={() => navigate('/seller/offers')}
-                sx={{
-                  justifyContent: 'flex-start',
-                  px: 2,
-                  py: 1.5,
-                  color: 'rgba(255,255,255,0.9)',
-                  textTransform: 'none',
-                  fontWeight: 400,
-                  '&:hover': {
-                    backgroundColor: 'rgba(255,255,255,0.1)',
-                  },
-                }}
-              >
-                💰 Offers
-              </Button>
-              <Button
-                fullWidth
-                onClick={() => navigate('/seller/contracts')}
-                sx={{
-                  justifyContent: 'flex-start',
-                  px: 2,
-                  py: 1.5,
-                  color: 'rgba(255,255,255,0.9)',
-                  textTransform: 'none',
-                  fontWeight: 400,
-                  '&:hover': {
-                    backgroundColor: 'rgba(255,255,255,0.1)',
-                  },
-                }}
-              >
-                📝 Contracts
-              </Button>
-              <Button
-                fullWidth
-                onClick={() => navigate('/seller/orders')}
-                sx={{
-                  justifyContent: 'space-between',
-                  px: 2,
-                  py: 1.5,
-                  color: 'rgba(255,255,255,0.9)',
-                  textTransform: 'none',
-                  fontWeight: 400,
-                  '&:hover': {
-                    backgroundColor: 'rgba(255,255,255,0.1)',
-                  },
-                }}
-              >
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  📊 Track Order Progress
-                </Box>
-                {dealsCount > 0 && (
-                  <Badge
-                    badgeContent={dealsCount}
-                    color="primary"
-                    sx={{
-                      '& .MuiBadge-badge': {
-                        backgroundColor: '#42a5f5',
-                        color: 'white',
-                        fontWeight: 600,
-                      },
-                    }}
-                  />
-                )}
-              </Button>
-              <Button
-                fullWidth
-                onClick={() => navigate('/change-password')}
-                sx={{
-                  justifyContent: 'flex-start',
-                  px: 2,
-                  py: 1.5,
-                  color: 'rgba(255,255,255,0.9)',
-                  textTransform: 'none',
-                  fontWeight: 400,
-                  '&:hover': {
-                    backgroundColor: 'rgba(255,255,255,0.1)',
-                  },
-                }}
-              >
-                🔒 Change Password
-              </Button>
+            <Box
+              onClick={() => navigate('/seller/offers')}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                py: 1.5,
+                px: 1,
+                borderRadius: 1,
+                mb: 0.5,
+                cursor: 'pointer',
+                '&:hover': { backgroundColor: 'rgba(0,0,0,0.05)' },
+              }}
+            >
+              <LocalOffer sx={{ 
+                mr: 2, 
+                fontSize: 20, 
+                background: 'linear-gradient(135deg, #8547B7 0%, #5D40BD 50%, #AE42BB 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }} />
+              <Typography variant="body2" sx={{ color: '#212121' }}>Offers</Typography>
+            </Box>
+            <Box
+              onClick={() => navigate('/seller/contracts')}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                py: 1.5,
+                px: 1,
+                borderRadius: 1,
+                mb: 0.5,
+                cursor: 'pointer',
+                '&:hover': { backgroundColor: 'rgba(0,0,0,0.05)' },
+              }}
+            >
+              <Description sx={{ 
+                mr: 2, 
+                fontSize: 20, 
+                background: 'linear-gradient(135deg, #8547B7 0%, #5D40BD 50%, #AE42BB 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }} />
+              <Typography variant="body2" sx={{ color: '#212121' }}>Contracts</Typography>
+            </Box>
+            <Box
+              onClick={() => navigate('/seller/orders')}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                py: 1.5,
+                px: 1,
+                borderRadius: 1,
+                mb: 0.5,
+                cursor: 'pointer',
+                '&:hover': { backgroundColor: 'rgba(0,0,0,0.05)' },
+              }}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <LocalShipping sx={{ 
+                  mr: 2, 
+                  fontSize: 20, 
+                  background: 'linear-gradient(135deg, #8547B7 0%, #5D40BD 50%, #AE42BB 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }} />
+                <Typography variant="body2" sx={{ color: '#212121' }}>Orders</Typography>
+              </Box>
+              {dealsCount > 0 && (
+                <Badge
+                  badgeContent={dealsCount}
+                  color="primary"
+                  sx={{
+                    '& .MuiBadge-badge': {
+                      backgroundColor: '#AE42BB',
+                      color: 'white',
+                      fontWeight: 600,
+                    },
+                  }}
+                />
+              )}
             </Box>
           </Box>
-        </Box>
 
-        <Box sx={{ p: 2, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-          <Button
-            variant="outlined"
-            fullWidth
-            onClick={() => navigate('/seller/dashboard')}
-            sx={{
-              borderColor: 'rgba(255,255,255,0.5)',
-              color: 'white',
-              '&:hover': { borderColor: 'white', backgroundColor: 'rgba(255,255,255,0.1)' },
-            }}
-          >
-            Back to Dashboard
-          </Button>
+          <Box sx={{ mb: 4 }}>
+            <Typography variant="subtitle2" sx={{ color: 'rgba(0,0,0,0.6)', mb: 1.5, px: 1, fontSize: '0.75rem', fontWeight: 500, letterSpacing: '0.5px' }}>
+              ACCOUNT
+            </Typography>
+            <Box
+              onClick={() => navigate('/change-password')}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                py: 1.5,
+                px: 1,
+                borderRadius: 1,
+                mb: 0.5,
+                cursor: 'pointer',
+                '&:hover': { backgroundColor: 'rgba(0,0,0,0.05)' },
+              }}
+            >
+              <Security sx={{ 
+                mr: 2, 
+                fontSize: 20, 
+                background: 'linear-gradient(135deg, #8547B7 0%, #5D40BD 50%, #AE42BB 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+              }} />
+              <Typography variant="body2" sx={{ color: '#212121' }}>Change Password</Typography>
+            </Box>
+          </Box>
         </Box>
       </Box>
 

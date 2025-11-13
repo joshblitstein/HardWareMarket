@@ -42,37 +42,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: '"Chakra Petch", "Bitcount Grid Single", sans-serif',
-    h1: {
-      fontWeight: 600,
-      fontFamily: '"Chakra Petch", sans-serif',
-    },
-    h2: {
-      fontWeight: 600,
-      fontFamily: '"Chakra Petch", sans-serif',
-    },
-    h3: {
-      fontWeight: 500,
-      fontFamily: '"Chakra Petch", sans-serif',
-    },
-    h4: {
-      fontFamily: '"Chakra Petch", sans-serif',
-    },
-    h5: {
-      fontFamily: '"Chakra Petch", sans-serif',
-    },
-    h6: {
-      fontFamily: '"Chakra Petch", sans-serif',
-    },
-    body1: {
-      fontFamily: '"Chakra Petch", sans-serif',
-    },
-    body2: {
-      fontFamily: '"Chakra Petch", sans-serif',
-    },
-    button: {
-      fontFamily: '"Chakra Petch", sans-serif',
-    },
+    fontFamily: 'sans-serif',
   },
   components: {
     MuiButton: {
