@@ -11,7 +11,6 @@ import {
   Button,
   Grid,
   Card,
-  CardContent,
   Chip,
   Paper,
   CircularProgress,
@@ -74,6 +73,7 @@ function LandingPage() {
     if (userProfile?.id) {
       fetchOffersCount();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userProfile?.id]);
 
   const fetchOffersCount = async () => {
@@ -106,6 +106,7 @@ function LandingPage() {
 
   useEffect(() => {
     applyFilters();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listings, filters]);
 
   // Reset to page 1 when filters change
@@ -212,29 +213,6 @@ function LandingPage() {
     }
   };
 
-  const getGPUImage = (gpuModel) => {
-    const images = {
-      H100:
-        'https://www.nvidia.com/content/dam/en-zz/Solutions/data-center/h100/nvidia-h100-dgx-h100-2x-3qtr-1260x709.jpg',
-      H200:
-        'https://www.nvidia.com/content/dam/en-zz/Solutions/data-center/h200/nvidia-h200-dgx-h200-2x-3qtr-1260x709.jpg',
-      A100:
-        'https://www.nvidia.com/content/dam/en-zz/Solutions/data-center/a100/nvidia-a100-dgx-a100-2x-3qtr-1260x709.jpg',
-      'A100 80G':
-        'https://www.nvidia.com/content/dam/en-zz/Solutions/data-center/a100/nvidia-a100-dgx-a100-2x-3qtr-1260x709.jpg',
-      B200:
-        'https://www.nvidia.com/content/dam/en-zz/Solutions/data-center/b200/nvidia-b200-dgx-b200-2x-3qtr-1260x709.jpg',
-      RTX5090:
-        'https://www.nvidia.com/content/dam/en-zz/Solutions/geforce/rtx-5090/nvidia-rtx-5090-2x-3qtr-1260x709.jpg',
-      A6000:
-        'https://www.nvidia.com/content/dam/en-zz/Solutions/professional/rtx-a6000/nvidia-rtx-a6000-2x-3qtr-1260x709.jpg',
-      RTXPRO6000:
-        'https://www.nvidia.com/content/dam/en-zz/Solutions/professional/rtx-pro-6000/nvidia-rtx-pro-6000-2x-3qtr-1260x709.jpg',
-    };
-    return images[gpuModel] || 'https://via.placeholder.com/200x120/1976d2/ffffff?text=NVIDIA+GPU';
-  };
-
-  const isNewGPU = (gpuModel) => ['H200', 'B200', 'RTXPRO6000'].includes(gpuModel);
 
   // ---------- Main Listing Card Component (Chrono24 style) ----------
   function ListingCard({ listing }) {
@@ -895,7 +873,7 @@ function LandingPage() {
                     mx: 'auto',
                     px: 2.5,
                     py: 2.5,
-                    
+
                     position: 'relative',
                     overflow: 'hidden',
                     mb: 4,
@@ -1165,7 +1143,6 @@ function LandingPage() {
                     <Grid container spacing={2} sx={{ width: 'auto', flexWrap: 'wrap', justifyContent: 'center' }}>
                       {(() => {
                         // Pagination calculations
-                        const totalPages = Math.ceil(filteredListings.length / itemsPerPage);
                         const startIndex = (page - 1) * itemsPerPage;
                         const paginatedListings = filteredListings.slice(startIndex, startIndex + itemsPerPage);
                         

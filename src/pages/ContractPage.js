@@ -4,7 +4,6 @@ import { doc, getDoc, updateDoc, deleteDoc, setDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
 import SignaturePad from '../components/SignaturePad';
-import SensitiveDataDisplay from '../components/SensitiveDataDisplay';
 import {
   Box,
   Container,
@@ -16,7 +15,6 @@ import {
   Alert,
   Paper,
   Divider,
-  IconButton,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -26,13 +24,13 @@ import {
 } from '@mui/material';
 import {
   ArrowBack,
-  CheckCircle,
   Lock,
   Download,
   Person,
   Email,
   Phone,
   Business,
+  CheckCircle,
 } from '@mui/icons-material';
 
 function ContractPage() {
@@ -55,6 +53,7 @@ function ContractPage() {
       return;
     }
     fetchContract();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contractId, userProfile]);
 
   const fetchContract = async () => {

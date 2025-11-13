@@ -15,11 +15,8 @@ import {
   CircularProgress,
   Alert,
   Divider,
-  Paper,
-  IconButton,
 } from '@mui/material';
 import {
-  ArrowBack,
   AttachMoney,
   CheckCircle,
 } from '@mui/icons-material';
@@ -46,6 +43,7 @@ function MakeOffer() {
       return;
     }
     fetchListing();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, userProfile, navigate]);
 
   const fetchListing = async () => {

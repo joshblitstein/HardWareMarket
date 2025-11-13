@@ -15,7 +15,6 @@ import {
   Alert,
   Paper,
   Divider,
-  IconButton,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -25,7 +24,6 @@ import {
 } from '@mui/material';
 import {
   ArrowBack,
-  CheckCircle,
   Download,
   Person,
   Email,

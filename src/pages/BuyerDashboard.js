@@ -29,7 +29,6 @@ import {
   Assignment,
   TrendingUp,
   MoreVert,
-  Add,
   Search,
 } from '@mui/icons-material';
 
@@ -43,6 +42,7 @@ function BuyerDashboard() {
 
   useEffect(() => {
     fetchBuyerData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchBuyerData = async () => {

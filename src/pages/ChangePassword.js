@@ -23,7 +23,7 @@ import {
 
 function ChangePassword() {
   const navigate = useNavigate();
-  const { changePassword, userProfile } = useAuth();
+  const { changePassword } = useAuth();
   const [formData, setFormData] = useState({
     currentPassword: '',
     newPassword: '',

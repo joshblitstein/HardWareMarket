@@ -14,14 +14,11 @@ import {
   CircularProgress,
   Grid,
   Paper,
-  IconButton,
   Tab,
   Tabs,
-  Divider,
   Badge,
 } from '@mui/material';
 import {
-  ArrowBack,
   AttachMoney,
   CheckCircle,
   Close,
@@ -45,7 +42,7 @@ function TabPanel({ children, value, index }) {
 
 function BuyerOffers() {
   const navigate = useNavigate();
-  const { currentUser, userProfile } = useAuth();
+  const { userProfile } = useAuth();
   const [offers, setOffers] = useState([]);
   const [contracts, setContracts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -57,6 +54,7 @@ function BuyerOffers() {
       fetchData();
       fetchOffersCount();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userProfile?.id]);
 
   const fetchOffersCount = async () => {

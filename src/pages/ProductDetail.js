@@ -12,7 +12,6 @@ import {
   Grid,
   Card,
   CardContent,
-  Paper,
   CircularProgress,
   Divider,
   IconButton,
@@ -25,7 +24,6 @@ import {
   LocationOn,
   Memory,
   Speed,
-  CheckCircle,
   ShoppingCart,
 } from '@mui/icons-material';
 import SensitiveDataDisplay from '../components/SensitiveDataDisplay';
@@ -44,12 +42,14 @@ function ProductDetail() {
 
   useEffect(() => {
     fetchListing();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   useEffect(() => {
     if (listing) {
       fetchRelatedListings();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [listing]);
 
   const fetchListing = async () => {

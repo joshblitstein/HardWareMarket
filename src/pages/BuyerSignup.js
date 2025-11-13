@@ -57,10 +57,6 @@ function BuyerSignup() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleFileUpload = (field) => (event) => {
-    setFormData(prev => ({ ...prev, [field]: event.target.files[0] }));
-  };
-
   const handleNext = () => {
     if (currentQuestion <= questions.length) {
       setCurrentQuestion(currentQuestion + 1);
@@ -108,7 +104,6 @@ function BuyerSignup() {
 
   const renderCurrentQuestion = () => {
     const question = questions[currentQuestion];
-    const progress = ((currentQuestion + 1) / (questions.length + 3)) * 100;
 
     if (currentQuestion < questions.length) {
       return (

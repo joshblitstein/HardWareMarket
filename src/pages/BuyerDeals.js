@@ -14,14 +14,11 @@ import {
   CircularProgress,
   Grid,
   Paper,
-  Alert,
-  IconButton,
   Tab,
   Tabs,
   Badge,
 } from '@mui/material';
 import {
-  ArrowBack,
   CheckCircle,
   Pending,
   LocalShipping,
@@ -33,17 +30,9 @@ import {
   AccountBalance,
 } from '@mui/icons-material';
 
-function TabPanel({ children, value, index }) {
-  return (
-    <div hidden={value !== index}>
-      {value === index && <Box sx={{ pt: 3 }}>{children}</Box>}
-    </div>
-  );
-}
-
 function BuyerDeals() {
   const navigate = useNavigate();
-  const { currentUser, userProfile } = useAuth();
+  const { userProfile } = useAuth();
   const [deals, setDeals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('active'); // 'active', 'completed', 'all'
@@ -54,6 +43,7 @@ function BuyerDeals() {
       fetchDeals();
       fetchOffersCount();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userProfile?.id]);
 
   const fetchOffersCount = async () => {

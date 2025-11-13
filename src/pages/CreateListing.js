@@ -92,6 +92,7 @@ function CreateListing() {
     if (userProfile?.id) {
       fetchDealsCount();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userProfile?.id]);
 
   const fetchDealsCount = async () => {

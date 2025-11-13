@@ -10,7 +10,6 @@ import {
   CardContent,
   TextField,
   Button,
-  Chip,
   Paper,
   CircularProgress,
   Alert,
@@ -21,10 +20,6 @@ import {
 import {
   CheckCircle,
   LocalShipping,
-  AccountBalance,
-  Verified,
-  Schedule,
-  LocationOn,
   ArrowBack,
   Lock,
 } from '@mui/icons-material';
@@ -39,6 +34,7 @@ function DealDetails() {
 
   useEffect(() => {
     fetchDeal();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dealId]);
 
   const fetchDeal = async () => {
@@ -160,10 +156,6 @@ function DealDetails() {
     estimatedDeliveryTime = displayDeal.estimatedDeliveryTime,
     shipTo = displayDeal.shipTo || 'Address not specified',
     timeline = displayDeal.timeline || [],
-    status = displayDeal.status,
-    totalValue = displayDeal.totalValue,
-    gpuModel = displayDeal.gpuModel,
-    quantity = displayDeal.quantity,
   } = displayDeal;
 
   // Update timeline with actual shipTo if available
@@ -182,16 +174,6 @@ function DealDetails() {
     }
     return event;
   });
-
-  const getStatusColor = (dealStatus) => {
-    const statusMap = {
-      pending: 'warning',
-      in_progress: 'info',
-      completed: 'success',
-      cancelled: 'error',
-    };
-    return statusMap[dealStatus] || 'info';
-  };
 
   const formatDate = (dateStr) => {
     if (!dateStr) return '';

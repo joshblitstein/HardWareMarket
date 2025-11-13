@@ -36,6 +36,7 @@ function PurchaseInitiation() {
       return;
     }
     fetchListing();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, userProfile]);
 
   const fetchListing = async () => {

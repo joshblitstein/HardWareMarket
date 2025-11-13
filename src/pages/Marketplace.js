@@ -26,8 +26,6 @@ import {
 import {
   Search,
   FilterList,
-  Verified,
-  LocationOn,
   FavoriteBorder,
 } from '@mui/icons-material';
 
