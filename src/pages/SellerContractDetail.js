@@ -53,6 +53,7 @@ function SellerContractDetail() {
       return;
     }
     fetchContract();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contractId, userProfile]);
 
   const fetchContract = async () => {
@@ -103,7 +104,6 @@ function SellerContractDetail() {
                 where('contractId', '==', contractData.id)
               );
               const dealsSnap = await getDocs(dealsQuery);
-              let dealId = null;
               if (dealsSnap.empty) {
                 console.log('⚠️ Deal not found, creating it...');
                 const dealRef = await addDoc(collection(db, 'deals'), {
@@ -121,14 +121,11 @@ function SellerContractDetail() {
                   createdAt: new Date(),
                   updatedAt: new Date(),
                 });
-                dealId = dealRef.id;
                 // Update listing with dealId
                 await updateDoc(listingRef, {
                   dealId: dealRef.id,
                 });
                 console.log('✅ Deal created:', dealRef.id);
-              } else {
-                dealId = dealsSnap.docs[0].id;
               }
               
               // Move completed contract to dep_contracts

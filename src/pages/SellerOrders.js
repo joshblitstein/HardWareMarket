@@ -7,11 +7,9 @@ import {
   Card,
   CardContent,
   Button,
-  Chip,
   Tab,
   Tabs,
   Paper,
-  CircularProgress,
   IconButton,
   TextField,
   Divider,
@@ -23,7 +21,6 @@ import {
   CheckCircle,
   LocalShipping,
   Lock,
-  LocationOn,
 } from '@mui/icons-material';
 
 function TabPanel({ children, value, index }) {

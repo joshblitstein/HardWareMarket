@@ -21,7 +21,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  TextField,
   Alert,
 } from '@mui/material';
 import {
@@ -55,6 +54,7 @@ function SellerOffers() {
     if (userProfile?.id) {
       fetchOffers();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userProfile?.id]);
 
   const fetchOffers = async () => {

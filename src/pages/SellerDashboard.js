@@ -44,6 +44,7 @@ function SellerDashboard() {
 
   useEffect(() => {
     fetchSellerData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchSellerData = async () => {

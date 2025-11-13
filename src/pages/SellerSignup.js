@@ -50,10 +50,6 @@ function SellerSignup() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleFileUpload = (field) => (event) => {
-    setFormData(prev => ({ ...prev, [field]: event.target.files[0] }));
-  };
-
   const handleNext = () => {
     if (currentQuestion <= questions.length) {
       setCurrentQuestion(currentQuestion + 1);

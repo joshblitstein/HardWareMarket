@@ -14,7 +14,6 @@ import {
   CircularProgress,
   Grid,
   Paper,
-  Alert,
   IconButton,
 } from '@mui/material';
 import {
@@ -36,6 +35,7 @@ function SellerContracts() {
     if (userProfile?.id) {
       fetchContracts();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userProfile?.id]);
 
   const fetchContracts = async () => {
