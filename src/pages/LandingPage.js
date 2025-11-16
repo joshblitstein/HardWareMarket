@@ -21,17 +21,20 @@ import {
   InputAdornment,
   IconButton,
   Pagination,
+  Menu,
+  ListItemText,
+  Divider,
 } from '@mui/material';
 import {
   Verified,
   Security,
   Speed,
   Visibility,
-  Menu,
   AccountBalance,
   Rocket,
   Search,
   FavoriteBorder,
+  ArrowDropDown,
 } from '@mui/icons-material';
 
 function LandingPage() {
@@ -48,11 +51,11 @@ function LandingPage() {
 
   // ---------- Sizing constants used everywhere ----------
   const CARD_W = 320; // Main listing card width
-  const CARD_H = 280; // Main listing card height (no image section)
+  const CARD_H = 340; // Main listing card height (no image section)
   
   // Featured card sizes
   const FEATURED_CARD_W = 280;
-  const FEATURED_CARD_H = 270; // No image section
+  const FEATURED_CARD_H = 320; // No image section
 
   const [listings, setListings] = useState([]);
   const [filteredListings, setFilteredListings] = useState([]);
@@ -66,6 +69,11 @@ function LandingPage() {
     location: '',
     seller: '',
     searchTerm: '',
+  });
+  const [filterMenuAnchor, setFilterMenuAnchor] = useState({
+    gpu: null,
+    condition: null,
+    location: null,
   });
 
   useEffect(() => {
@@ -241,7 +249,7 @@ function LandingPage() {
             display: 'flex',
             flexDirection: 'column',
             backgroundColor: 'white',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
           }}
         >
           {/* Badge (top-left) - POPULAR/PROMOTED */}
@@ -315,7 +323,7 @@ function LandingPage() {
           </Box>
 
           {/* Content Section */}
-          <Box sx={{ px: 2, pt: { xs: 4, sm: 5 }, pb: 2 }}>
+          <Box sx={{ px: 2, pt: { xs: 4, sm: 4.5 }, pb: 1, flex: '0 0 auto' }}>
             {/* Product Name */}
             <Typography 
               variant="h6" 
@@ -337,7 +345,7 @@ function LandingPage() {
               sx={{ 
                 fontSize: '0.8125rem',
                 color: '#757575',
-                mb: 1,
+                mb: 0.75,
                 lineHeight: 1.3,
               }}
             >
@@ -357,21 +365,58 @@ function LandingPage() {
               {listing.gpuModel || 'GPU'} Server
             </Typography>
 
-            {/* Configuration */}
-            <Typography 
-              sx={{ 
-                fontSize: '0.8125rem', 
-                color: '#212121',
-                mb: 1.5,
-                lineHeight: 1.3,
-              }}
-            >
-              {listing.gpuCount ? `${listing.gpuCount}x` : ''} {listing.gpuModel || 'GPU'} {listing.gpuCount && listing.gpuModel ? '•' : ''} {listing.ram ? `${listing.ram}GB RAM` : ''}
-            </Typography>
+            {/* Configuration/Specs */}
+            <Box sx={{ mb: 0.75 }}>
+              <Typography 
+                sx={{ 
+                  fontSize: '0.8125rem', 
+                  color: '#212121',
+                  mb: 0.4,
+                  lineHeight: 1.3,
+                }}
+              >
+                {listing.gpuCount ? `${listing.gpuCount}x` : ''} {listing.gpuModel || 'GPU'} {listing.gpuCount && listing.gpuModel ? '•' : ''} {listing.ram ? `${listing.ram}GB RAM` : ''}
+              </Typography>
+              {listing.cpuModel && (
+                <Typography 
+                  sx={{ 
+                    fontSize: '0.75rem', 
+                    color: '#757575',
+                    mb: 0.4,
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {listing.cpuCount ? `${listing.cpuCount}x` : ''} {listing.cpuModel} {listing.cpuCount ? 'CPU' : ''}
+                </Typography>
+              )}
+              {listing.storage && (
+                <Typography 
+                  sx={{ 
+                    fontSize: '0.75rem', 
+                    color: '#757575',
+                    mb: 0.4,
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {listing.storage}
+                </Typography>
+              )}
+              {listing.networking && (
+                <Typography 
+                  sx={{ 
+                    fontSize: '0.75rem', 
+                    color: '#757575',
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {listing.networking}
+                </Typography>
+              )}
+            </Box>
           </Box>
 
           {/* Pricing and Shipping Section */}
-          <Box sx={{ px: 2, pb: 2, mt: 'auto', display: 'flex', flexDirection: 'column', flex: 1 }}>
+          <Box sx={{ px: 2, pb: 2, pt: 0.5, mt: 'auto', display: 'flex', flexDirection: 'column', flex: '0 0 auto' }}>
             {/* Price */}
             <Typography 
               sx={{ 
@@ -383,7 +428,7 @@ function LandingPage() {
                 lineHeight: 1.2,
               }}
             >
-              ${(Math.random() * 50000 + 10000).toLocaleString(undefined, { maximumFractionDigits: 3 })}
+              ${(Math.random() * 200000 + 100000).toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </Typography>
 
             {/* Shipping */}
@@ -392,7 +437,7 @@ function LandingPage() {
                 fontSize: '0.8125rem', 
                 color: '#8547B7',
                 fontWeight: 400,
-                mb: 0.75,
+                mb: 0.5,
                 lineHeight: 1.3,
               }}
             >
@@ -400,7 +445,7 @@ function LandingPage() {
             </Typography>
 
             {/* Location */}
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 1 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5, mb: 0.75 }}>
               <Box sx={{ fontSize: '0.875rem', color: '#f44336' }}>📍</Box>
               <Typography 
                 sx={{ 
@@ -419,7 +464,6 @@ function LandingPage() {
                 fontSize: '0.75rem', 
                 color: '#9e9e9e',
                 fontWeight: 400,
-                mt: 'auto',
               }}
             >
               • Certified optional
@@ -451,7 +495,7 @@ function LandingPage() {
             display: 'flex',
             flexDirection: 'column',
             backgroundColor: 'white',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
           }}
         >
           {/* VERIFIED Badge - Top Left */}
@@ -493,7 +537,7 @@ function LandingPage() {
           </Box>
 
           {/* Content */}
-          <Box sx={{ px: 2, pt: 5, pb: 2, flex: 1, display: 'flex', flexDirection: 'column' }}>
+          <Box sx={{ px: 2, pt: 4.5, pb: 2, flex: 1, display: 'flex', flexDirection: 'column' }}>
             {/* GPU Model Name */}
             <Typography 
               variant="h5" 
@@ -515,7 +559,7 @@ function LandingPage() {
               sx={{ 
                 fontSize: '0.8125rem',
                 color: '#757575',
-                mb: 1.5,
+                mb: 1,
                 lineHeight: 1.3,
               }}
             >
@@ -540,12 +584,63 @@ function LandingPage() {
                 fontSize: '0.9375rem', 
                 fontWeight: 600,
                 color: '#212121',
-                mb: 'auto',
+                mb: 0.75,
                 lineHeight: 1.3,
               }}
             >
               {listing.gpuModel} Server
             </Typography>
+
+            {/* Specs */}
+            <Box sx={{ mb: 'auto' }}>
+              {listing.gpuCount && (
+                <Typography 
+                  sx={{ 
+                    fontSize: '0.75rem', 
+                    color: '#757575',
+                    mb: 0.4,
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {listing.gpuCount}x {listing.gpuModel} {listing.ram ? `• ${listing.ram}GB RAM` : ''}
+                </Typography>
+              )}
+              {listing.cpuModel && (
+                <Typography 
+                  sx={{ 
+                    fontSize: '0.75rem', 
+                    color: '#757575',
+                    mb: 0.4,
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {listing.cpuCount ? `${listing.cpuCount}x` : ''} {listing.cpuModel}
+                </Typography>
+              )}
+              {listing.storage && (
+                <Typography 
+                  sx={{ 
+                    fontSize: '0.75rem', 
+                    color: '#757575',
+                    mb: 0.4,
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {listing.storage}
+                </Typography>
+              )}
+              {listing.networking && (
+                <Typography 
+                  sx={{ 
+                    fontSize: '0.75rem', 
+                    color: '#757575',
+                    lineHeight: 1.3,
+                  }}
+                >
+                  {listing.networking}
+                </Typography>
+              )}
+            </Box>
 
             {/* Price at Bottom */}
             <Typography 
@@ -555,11 +650,11 @@ function LandingPage() {
                 color: '#8547B7',
                 letterSpacing: '-0.02em',
                 mt: 'auto',
-                pt: 2,
+                pt: 1.5,
                 lineHeight: 1.2,
               }}
             >
-              from ${(Math.random() * 50000 + 10000).toLocaleString(undefined, { maximumFractionDigits: 3 })}
+              from ${(Math.random() * 200000 + 100000).toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </Typography>
           </Box>
         </Card>
@@ -591,11 +686,16 @@ function LandingPage() {
               component="img"
               src="/logo.png"
               alt="Nimbus Logo"
+              onClick={() => window.open('https://gpu-landing-page.vercel.app/', '_blank')}
               sx={{
                 height: 'auto',
                 maxWidth: '100%',
                 maxHeight: 60,
                 objectFit: 'contain',
+                cursor: 'pointer',
+                '&:hover': {
+                  opacity: 0.8,
+                },
               }}
             />
           </Box>
@@ -1010,30 +1110,16 @@ function LandingPage() {
             {/* Filters */}
             <Box mb={4}>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2, flexWrap: 'wrap' }}>
-                <Button
-                  variant="contained"
-                  startIcon={<Menu />}
-                  sx={{
-                    backgroundColor: '#424242',
-                    color: 'white',
-                    borderRadius: '20px',
-                    px: 2,
-                    py: 1,
-                    border: '1px solid white',
-                    '&:hover': { backgroundColor: '#555' },
-                  }}
-                  onClick={clearFilters}
-                >
-                  Filter ({Object.values(filters).filter((f) => f !== '').length})
-                </Button>
-
+                {/* Search */}
                 <TextField
                   placeholder="Search GPU model, chassis, or seller..."
                   value={filters.searchTerm}
                   onChange={(e) => handleFilterChange('searchTerm', e.target.value)}
                   size="small"
                   sx={{
-                    minWidth: 200,
+                    minWidth: 250,
+                    flex: 1,
+                    maxWidth: 400,
                     '& .MuiOutlinedInput-root': {
                       borderRadius: '20px',
                       backgroundColor: '#f5f5f5',
@@ -1052,77 +1138,161 @@ function LandingPage() {
                   }}
                 />
 
-                {/* Quick chips */}
-                <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', alignItems: 'center' }}>
-                  {['H100', 'H200', 'A100', 'B200'].map((gpu) => (
-                    <Chip
+                {/* GPU Model Filter */}
+                <Button
+                  variant={filters.gpuModel ? 'contained' : 'outlined'}
+                  onClick={(e) => setFilterMenuAnchor({ ...filterMenuAnchor, gpu: e.currentTarget })}
+                  endIcon={<ArrowDropDown />}
+                  sx={{
+                    borderRadius: '20px',
+                    px: 2,
+                    py: 1,
+                    textTransform: 'none',
+                    borderColor: '#ccc',
+                    color: filters.gpuModel ? 'white' : '#333',
+                    backgroundColor: filters.gpuModel ? '#8547B7' : 'transparent',
+                    '&:hover': {
+                      backgroundColor: filters.gpuModel ? '#5D40BD' : 'rgba(0,0,0,0.05)',
+                      borderColor: filters.gpuModel ? '#5D40BD' : '#999',
+                    },
+                  }}
+                >
+                  GPU Model {filters.gpuModel && `: ${filters.gpuModel}`}
+                </Button>
+                <Menu
+                  anchorEl={filterMenuAnchor.gpu}
+                  open={Boolean(filterMenuAnchor.gpu)}
+                  onClose={() => setFilterMenuAnchor({ ...filterMenuAnchor, gpu: null })}
+                >
+                  <MenuItem onClick={() => { handleFilterChange('gpuModel', ''); setFilterMenuAnchor({ ...filterMenuAnchor, gpu: null }); }}>
+                    <ListItemText>All GPUs</ListItemText>
+                  </MenuItem>
+                  <Divider />
+                  {['H100', 'H200', 'A100', 'B200', 'V100'].map((gpu) => (
+                    <MenuItem
                       key={gpu}
-                      label={gpu}
-                      clickable
-                      variant={filters.gpuModel === gpu ? 'filled' : 'outlined'}
-                      onClick={() =>
-                        handleFilterChange('gpuModel', filters.gpuModel === gpu ? '' : gpu)
-                      }
-                      sx={{
-                        backgroundColor: filters.gpuModel === gpu ? '#e0e0e0' : 'transparent',
-                        borderColor: '#ccc',
-                        color: '#333',
-                        '&:hover': { backgroundColor: '#f0f0f0' },
+                      onClick={() => {
+                        handleFilterChange('gpuModel', gpu);
+                        setFilterMenuAnchor({ ...filterMenuAnchor, gpu: null });
                       }}
-                    />
+                      selected={filters.gpuModel === gpu}
+                    >
+                      <ListItemText>{gpu}</ListItemText>
+                    </MenuItem>
                   ))}
+                </Menu>
 
+                {/* Condition Filter */}
+                <Button
+                  variant={filters.condition ? 'contained' : 'outlined'}
+                  onClick={(e) => setFilterMenuAnchor({ ...filterMenuAnchor, condition: e.currentTarget })}
+                  endIcon={<ArrowDropDown />}
+                  sx={{
+                    borderRadius: '20px',
+                    px: 2,
+                    py: 1,
+                    textTransform: 'none',
+                    borderColor: '#ccc',
+                    color: filters.condition ? 'white' : '#333',
+                    backgroundColor: filters.condition ? '#8547B7' : 'transparent',
+                    '&:hover': {
+                      backgroundColor: filters.condition ? '#5D40BD' : 'rgba(0,0,0,0.05)',
+                      borderColor: filters.condition ? '#5D40BD' : '#999',
+                    },
+                  }}
+                >
+                  Condition {filters.condition && `: ${filters.condition.charAt(0).toUpperCase() + filters.condition.slice(1)}`}
+                </Button>
+                <Menu
+                  anchorEl={filterMenuAnchor.condition}
+                  open={Boolean(filterMenuAnchor.condition)}
+                  onClose={() => setFilterMenuAnchor({ ...filterMenuAnchor, condition: null })}
+                >
+                  <MenuItem onClick={() => { handleFilterChange('condition', ''); setFilterMenuAnchor({ ...filterMenuAnchor, condition: null }); }}>
+                    <ListItemText>All Conditions</ListItemText>
+                  </MenuItem>
+                  <Divider />
                   {['New', 'Used', 'Refurbished'].map((condition) => (
-                    <Chip
+                    <MenuItem
                       key={condition}
-                      label={condition}
-                      clickable
-                      variant={filters.condition === condition.toLowerCase() ? 'filled' : 'outlined'}
-                      onClick={() =>
-                        handleFilterChange(
-                          'condition',
-                          filters.condition === condition.toLowerCase() ? '' : condition.toLowerCase()
-                        )
-                      }
-                      sx={{
-                        backgroundColor:
-                          filters.condition === condition.toLowerCase() ? '#e0e0e0' : 'transparent',
-                        borderColor: '#ccc',
-                        color: '#333',
-                        '&:hover': { backgroundColor: '#f0f0f0' },
+                      onClick={() => {
+                        handleFilterChange('condition', condition.toLowerCase());
+                        setFilterMenuAnchor({ ...filterMenuAnchor, condition: null });
                       }}
-                    />
+                      selected={filters.condition === condition.toLowerCase()}
+                    >
+                      <ListItemText>{condition}</ListItemText>
+                    </MenuItem>
                   ))}
+                </Menu>
 
-                  {['United States', 'United Kingdom', 'Canada'].map((location) => (
-                    <Chip
+                {/* Location Filter */}
+                <Button
+                  variant={filters.location ? 'contained' : 'outlined'}
+                  onClick={(e) => setFilterMenuAnchor({ ...filterMenuAnchor, location: e.currentTarget })}
+                  endIcon={<ArrowDropDown />}
+                  sx={{
+                    borderRadius: '20px',
+                    px: 2,
+                    py: 1,
+                    textTransform: 'none',
+                    borderColor: '#ccc',
+                    color: filters.location ? 'white' : '#333',
+                    backgroundColor: filters.location ? '#8547B7' : 'transparent',
+                    '&:hover': {
+                      backgroundColor: filters.location ? '#5D40BD' : 'rgba(0,0,0,0.05)',
+                      borderColor: filters.location ? '#5D40BD' : '#999',
+                    },
+                  }}
+                >
+                  Location {filters.location && `: ${filters.location}`}
+                </Button>
+                <Menu
+                  anchorEl={filterMenuAnchor.location}
+                  open={Boolean(filterMenuAnchor.location)}
+                  onClose={() => setFilterMenuAnchor({ ...filterMenuAnchor, location: null })}
+                >
+                  <MenuItem onClick={() => { handleFilterChange('location', ''); setFilterMenuAnchor({ ...filterMenuAnchor, location: null }); }}>
+                    <ListItemText>All Locations</ListItemText>
+                  </MenuItem>
+                  <Divider />
+                  {['United States', 'United Kingdom', 'Canada', 'Germany', 'France', 'Netherlands'].map((location) => (
+                    <MenuItem
                       key={location}
-                      label={location}
-                      clickable
-                      variant={filters.location === location ? 'filled' : 'outlined'}
-                      onClick={() =>
-                        handleFilterChange('location', filters.location === location ? '' : location)
-                      }
-                      sx={{
-                        backgroundColor: filters.location === location ? '#e0e0e0' : 'transparent',
-                        borderColor: '#ccc',
-                        color: '#333',
-                        '&:hover': { backgroundColor: '#f0f0f0' },
+                      onClick={() => {
+                        handleFilterChange('location', location);
+                        setFilterMenuAnchor({ ...filterMenuAnchor, location: null });
                       }}
-                    />
+                      selected={filters.location === location}
+                    >
+                      <ListItemText>{location}</ListItemText>
+                    </MenuItem>
                   ))}
+                </Menu>
 
-                  <Chip
-                    label="Verified"
-                    clickable
+                {/* Clear Filters */}
+                {Object.values(filters).some((f) => f !== '') && (
+                  <Button
                     variant="outlined"
-                    icon={<Verified sx={{ fontSize: 16 }} />}
-                    sx={{ borderColor: '#ccc', color: '#333', '&:hover': { backgroundColor: '#f0f0f0' } }}
-                  />
+                    onClick={clearFilters}
+                    sx={{
+                      borderRadius: '20px',
+                      px: 2,
+                      py: 1,
+                      textTransform: 'none',
+                      borderColor: '#ccc',
+                      color: '#666',
+                      '&:hover': {
+                        backgroundColor: 'rgba(0,0,0,0.05)',
+                        borderColor: '#999',
+                      },
+                    }}
+                  >
+                    Clear All
+                  </Button>
+                )}
 
-                  <Box sx={{ color: '#666', ml: 1 }}>→</Box>
-                </Box>
-
+                {/* Sort */}
                 <Box sx={{ ml: 'auto' }}>
                   <FormControl size="small">
                     <Select
