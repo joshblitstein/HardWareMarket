@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { collection, getDocs, doc, deleteDoc, addDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, deleteDoc, addDoc, updateDoc, query, where } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
 import {
@@ -22,26 +22,39 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tabs,
+  Tab,
 } from '@mui/material';
-import { CheckCircle, Cancel, Visibility } from '@mui/icons-material';
+import { CheckCircle, Cancel, Visibility, People, Inventory } from '@mui/icons-material';
 
 function AdminDashboard() {
   const { userProfile } = useAuth();
   const [pendingListings, setPendingListings] = useState([]);
+  const [pendingUsers, setPendingUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedListing, setSelectedListing] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
   const [viewDialog, setViewDialog] = useState(false);
+  const [viewUserDialog, setViewUserDialog] = useState(false);
   const [actionLoading, setActionLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
     if (userProfile && userProfile.userType === 'admin') {
-      fetchPendingListings();
+      const loadData = async () => {
+        await Promise.all([
+          fetchPendingListings(),
+          fetchPendingUsers()
+        ]);
+      };
+      loadData();
     }
   }, [userProfile]);
 
   const fetchPendingListings = async () => {
     try {
+      setLoading(true);
       const querySnapshot = await getDocs(collection(db, 'pendingListings'));
       const listings = querySnapshot.docs.map(doc => ({
         id: doc.id,
@@ -56,11 +69,42 @@ function AdminDashboard() {
       });
       
       setPendingListings(listings);
+      console.log('Fetched pending listings:', listings.length);
     } catch (error) {
       console.error('Error fetching pending listings:', error);
       setError('Failed to fetch pending listings');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchPendingUsers = async () => {
+    try {
+      // Get all users and filter for unverified ones (verified === false or undefined)
+      const allUsersSnapshot = await getDocs(collection(db, 'users'));
+      const allUsers = allUsersSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      
+      // Filter for users that are not verified (verified === false or verified is undefined)
+      // Also exclude admin users from pending list
+      const unverifiedUsers = allUsers.filter(user => 
+        user.userType !== 'admin' && (user.verified === false || user.verified === undefined)
+      );
+      
+      // Sort by creation date, newest first
+      unverifiedUsers.sort((a, b) => {
+        const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt);
+        const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt);
+        return dateB - dateA;
+      });
+      
+      setPendingUsers(unverifiedUsers);
+      console.log('Fetched pending users:', unverifiedUsers.length);
+    } catch (error) {
+      console.error('Error fetching pending users:', error);
+      setError('Failed to fetch pending users: ' + error.message);
     }
   };
 
@@ -125,13 +169,47 @@ function AdminDashboard() {
     }
   };
 
-  if (loading) {
-    return (
-      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
+  const handleApproveUser = async (user) => {
+    try {
+      setActionLoading(true);
+      
+      // Update user to verified
+      await updateDoc(doc(db, 'users', user.id), {
+        verified: true,
+        verifiedAt: new Date(),
+        verifiedBy: userProfile.id,
+      });
+      
+      // Refresh the list
+      await fetchPendingUsers();
+      setViewUserDialog(false);
+      setSelectedUser(null);
+    } catch (error) {
+      console.error('Error approving user:', error);
+      setError('Failed to approve user: ' + error.message);
+    } finally {
+      setActionLoading(false);
+    }
+  };
+
+  const handleRejectUser = async (user) => {
+    try {
+      setActionLoading(true);
+      
+      // Delete user from database
+      await deleteDoc(doc(db, 'users', user.id));
+      
+      // Refresh the list
+      await fetchPendingUsers();
+      setViewUserDialog(false);
+      setSelectedUser(null);
+    } catch (error) {
+      console.error('Error rejecting user:', error);
+      setError('Failed to reject user: ' + error.message);
+    } finally {
+      setActionLoading(false);
+    }
+  };
 
   return (
     <Box sx={{ minHeight: '100vh', backgroundColor: '#fafafa' }}>
@@ -139,19 +217,45 @@ function AdminDashboard() {
         <Typography variant="h4" sx={{ fontWeight: 600, mb: 1 }}>
           Admin Dashboard
         </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 4 }}>
-          Review and approve pending listings
+        <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+          Review and approve pending listings and users
         </Typography>
 
         {error && <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>}
 
-        {pendingListings.length === 0 ? (
-          <Paper sx={{ p: 4, textAlign: 'center' }}>
-            <Typography variant="h6" color="text.secondary">
-              No pending listings to review
-            </Typography>
-          </Paper>
-        ) : (
+        {/* Tabs - Always visible */}
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+          <Tabs value={activeTab} onChange={(e, newValue) => setActiveTab(newValue)}>
+            <Tab 
+              icon={<Inventory />} 
+              iconPosition="start" 
+              label={`Pending Listings (${pendingListings.length})`} 
+            />
+            <Tab 
+              icon={<People />} 
+              iconPosition="start" 
+              label={`Pending Users (${pendingUsers.length})`} 
+            />
+          </Tabs>
+        </Box>
+
+        {loading && (
+          <Box sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+            <CircularProgress />
+          </Box>
+        )}
+
+        {/* Pending Listings Tab */}
+        {activeTab === 0 && (
+          <>
+
+            {pendingListings.length === 0 ? (
+              <Paper sx={{ p: 4, textAlign: 'center' }}>
+                <Typography variant="h6" color="text.secondary">
+                  No pending listings to review
+                </Typography>
+              </Paper>
+            ) : (
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -208,6 +312,78 @@ function AdminDashboard() {
               </TableBody>
             </Table>
           </TableContainer>
+            )}
+          </>
+        )}
+
+        {/* Pending Users Tab */}
+        {activeTab === 1 && (
+          <>
+            {pendingUsers.length === 0 ? (
+              <Paper sx={{ p: 4, textAlign: 'center' }}>
+                <Typography variant="h6" color="text.secondary">
+                  No pending users to review
+                </Typography>
+              </Paper>
+            ) : (
+              <TableContainer component={Paper}>
+                <Table>
+                  <TableHead>
+                    <TableRow sx={{ backgroundColor: '#f5f5f5' }}>
+                      <TableCell><strong>Name/Company</strong></TableCell>
+                      <TableCell><strong>Email</strong></TableCell>
+                      <TableCell><strong>User Type</strong></TableCell>
+                      <TableCell><strong>Country</strong></TableCell>
+                      <TableCell><strong>Registered</strong></TableCell>
+                      <TableCell><strong>Actions</strong></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {pendingUsers.map((user) => {
+                      const registeredDate = user.createdAt?.toDate ? user.createdAt.toDate() : new Date(user.createdAt);
+                      
+                      return (
+                        <TableRow key={user.id} hover>
+                          <TableCell>
+                            {user.fullName || user.companyName || 'N/A'}
+                          </TableCell>
+                          <TableCell>{user.email || 'N/A'}</TableCell>
+                          <TableCell>
+                            <Chip 
+                              label={user.userType || 'N/A'} 
+                              size="small" 
+                              color={user.userType === 'buyer' ? 'primary' : user.userType === 'seller' ? 'secondary' : 'default'}
+                            />
+                          </TableCell>
+                          <TableCell>
+                            {user.countryOfRegistration || user.businessAddress?.country || 'N/A'}
+                          </TableCell>
+                          <TableCell>
+                            {registeredDate.toLocaleDateString()}
+                          </TableCell>
+                          <TableCell>
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                              <Button
+                                size="small"
+                                variant="outlined"
+                                startIcon={<Visibility />}
+                                onClick={() => {
+                                  setSelectedUser(user);
+                                  setViewUserDialog(true);
+                                }}
+                              >
+                                View
+                              </Button>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          </>
         )}
       </Container>
 
@@ -329,6 +505,159 @@ function AdminDashboard() {
             variant="contained"
             startIcon={<CheckCircle />}
             onClick={() => handleApprove(selectedListing)}
+            disabled={actionLoading}
+          >
+            {actionLoading ? <CircularProgress size={24} /> : 'Approve'}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* View User Dialog */}
+      <Dialog 
+        open={viewUserDialog} 
+        onClose={() => {
+          setViewUserDialog(false);
+          setSelectedUser(null);
+        }}
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle>
+          Review User Details
+        </DialogTitle>
+        <DialogContent>
+          {selectedUser && (
+            <Box>
+              <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600, mt: 2 }}>
+                Basic Information
+              </Typography>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Typography variant="body2"><strong>Email:</strong> {selectedUser.email || 'N/A'}</Typography>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography variant="body2"><strong>User Type:</strong> {selectedUser.userType || 'N/A'}</Typography>
+                </Grid>
+                {selectedUser.fullName && (
+                  <Grid item xs={6}>
+                    <Typography variant="body2"><strong>Full Name:</strong> {selectedUser.fullName}</Typography>
+                  </Grid>
+                )}
+                {selectedUser.companyName && (
+                  <Grid item xs={6}>
+                    <Typography variant="body2"><strong>Company Name:</strong> {selectedUser.companyName}</Typography>
+                  </Grid>
+                )}
+                {selectedUser.legalCompanyName && (
+                  <Grid item xs={6}>
+                    <Typography variant="body2"><strong>Legal Company Name:</strong> {selectedUser.legalCompanyName}</Typography>
+                  </Grid>
+                )}
+                {selectedUser.countryOfRegistration && (
+                  <Grid item xs={6}>
+                    <Typography variant="body2"><strong>Country of Registration:</strong> {selectedUser.countryOfRegistration}</Typography>
+                  </Grid>
+                )}
+                {selectedUser.registrationId && (
+                  <Grid item xs={6}>
+                    <Typography variant="body2"><strong>Registration ID:</strong> {selectedUser.registrationId}</Typography>
+                  </Grid>
+                )}
+              </Grid>
+
+              {selectedUser.businessAddress && (
+                <>
+                  <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600, mt: 3 }}>
+                    Business Address
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {selectedUser.businessAddress.address && <><strong>Address:</strong> {selectedUser.businessAddress.address}<br /></>}
+                    {selectedUser.businessAddress.city && <><strong>City:</strong> {selectedUser.businessAddress.city}<br /></>}
+                    {selectedUser.businessAddress.state && <><strong>State:</strong> {selectedUser.businessAddress.state}<br /></>}
+                    {selectedUser.businessAddress.country && <><strong>Country:</strong> {selectedUser.businessAddress.country}</>}
+                  </Typography>
+                </>
+              )}
+
+              {selectedUser.contactName && (
+                <>
+                  <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600, mt: 3 }}>
+                    Contact Information
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>Contact Name:</strong> {selectedUser.contactName}<br />
+                    {selectedUser.position && <><strong>Position:</strong> {selectedUser.position}<br /></>}
+                    {selectedUser.workPhone && <><strong>Work Phone:</strong> {selectedUser.workPhone}</>}
+                  </Typography>
+                </>
+              )}
+
+              {selectedUser.bankingDetails && (
+                <>
+                  <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600, mt: 3 }}>
+                    Banking Details (Seller Only)
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    <strong>Bank Name:</strong> {selectedUser.bankingDetails.bankName || 'N/A'}<br />
+                    <strong>Account Number:</strong> {selectedUser.bankingDetails.accountNumber ? '***' + selectedUser.bankingDetails.accountNumber.slice(-4) : 'N/A'}<br />
+                    <strong>Swift/BIC:</strong> {selectedUser.bankingDetails.swiftBic || 'N/A'}
+                  </Typography>
+                </>
+              )}
+
+              <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600, mt: 3 }}>
+                Registration Details
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                <strong>Created At:</strong> {selectedUser.createdAt?.toDate ? selectedUser.createdAt.toDate().toLocaleString() : 'N/A'}<br />
+                <strong>Verified:</strong> {selectedUser.verified ? 'Yes' : 'No'}<br />
+                <strong>Active:</strong> {selectedUser.isActive ? 'Yes' : 'No'}
+              </Typography>
+
+              {selectedUser.registrationProof && (
+                <>
+                  <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600, mt: 3 }}>
+                    Uploaded Documents
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                    {selectedUser.registrationProof && (
+                      <Chip label="Registration Proof" size="small" sx={{ width: 'fit-content' }} />
+                    )}
+                    {selectedUser.incorporationProof && (
+                      <Chip label="Incorporation Proof" size="small" sx={{ width: 'fit-content' }} />
+                    )}
+                    {selectedUser.representativeId && (
+                      <Chip label="Representative ID" size="small" sx={{ width: 'fit-content' }} />
+                    )}
+                  </Box>
+                </>
+              )}
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2 }}>
+          <Button
+            onClick={() => {
+              setViewUserDialog(false);
+              setSelectedUser(null);
+            }}
+          >
+            Close
+          </Button>
+          <Button
+            color="error"
+            variant="outlined"
+            startIcon={<Cancel />}
+            onClick={() => handleRejectUser(selectedUser)}
+            disabled={actionLoading}
+          >
+            {actionLoading ? <CircularProgress size={24} /> : 'Reject'}
+          </Button>
+          <Button
+            color="success"
+            variant="contained"
+            startIcon={<CheckCircle />}
+            onClick={() => handleApproveUser(selectedUser)}
             disabled={actionLoading}
           >
             {actionLoading ? <CircularProgress size={24} /> : 'Approve'}

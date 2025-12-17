@@ -59,8 +59,34 @@ export function AuthProvider({ children }) {
 
       // Create new user document
       const hashedPassword = hashPassword(password);
+      
+      // Helper function to remove undefined and null values recursively
+      const removeUndefined = (obj) => {
+        if (obj === null || obj === undefined) {
+          return undefined; // Return undefined so it gets filtered out
+        }
+        if (typeof obj !== 'object') {
+          return obj;
+        }
+        if (Array.isArray(obj)) {
+          return obj.map(removeUndefined).filter(item => item !== undefined);
+        }
+        if (obj instanceof Date) {
+          return obj;
+        }
+        const cleaned = {};
+        for (const key in obj) {
+          const value = removeUndefined(obj[key]);
+          if (value !== undefined) {
+            cleaned[key] = value;
+          }
+        }
+        return cleaned;
+      };
+
+      const cleanedUserData = removeUndefined(userData);
       const userDataWithAuth = {
-        ...userData,
+        ...cleanedUserData,
         email: email,
         password: hashedPassword,
         createdAt: new Date(),

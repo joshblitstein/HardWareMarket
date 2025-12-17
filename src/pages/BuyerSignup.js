@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
@@ -51,6 +51,15 @@ function BuyerSignup() {
 
   const { signup } = useAuth();
   const navigate = useNavigate();
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  // Trigger signup when "Almost Done!" page is reached
+  useEffect(() => {
+    if (currentQuestion === questions.length + 1 && !hasSubmitted && !loading) {
+      setHasSubmitted(true);
+      handleSubmit();
+    }
+  }, [currentQuestion]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleInputChange = (field) => (event) => {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
@@ -74,28 +83,38 @@ function BuyerSignup() {
       setError('');
       setLoading(true);
       
-      await signup(formData.workEmail, formData.password, {
+      // Build user data object, only including defined values
+      const userData = {
         userType: 'buyer',
         fullName: formData.fullName,
         companyName: formData.companyName,
         legalCompanyName: formData.legalCompanyName,
         countryOfRegistration: formData.countryOfRegistration,
         registrationId: formData.registrationId,
-        businessAddress: {
-          address: formData.businessAddress,
-          city: formData.city,
-          state: formData.state,
-          country: formData.country,
-        },
         contactName: formData.contactName,
         position: formData.position,
         workPhone: formData.workPhone,
         notRestricted: formData.notRestricted,
         agreeToTerms: formData.agreeToTerms,
-        registrationProof: formData.registrationProof?.name,
-      });
+      };
+
+      // Only add businessAddress if it has values
+      if (formData.businessAddress || formData.city || formData.state || formData.country) {
+        userData.businessAddress = {};
+        if (formData.businessAddress) userData.businessAddress.address = formData.businessAddress;
+        if (formData.city) userData.businessAddress.city = formData.city;
+        if (formData.state) userData.businessAddress.state = formData.state;
+        if (formData.country) userData.businessAddress.country = formData.country;
+      }
+
+      // Only add registrationProof if it exists
+      if (formData.registrationProof?.name) {
+        userData.registrationProof = formData.registrationProof.name;
+      }
       
-      navigate('/login');
+      await signup(formData.workEmail, formData.password, userData);
+      
+      // Don't navigate here - let the OK button handle navigation
     } catch (error) {
       setError('Failed to create account: ' + error.message);
     }
@@ -321,7 +340,8 @@ function BuyerSignup() {
           variant="contained"
           onClick={() => {
             if (currentQuestion === questions.length + 1) {
-              handleSubmit();
+              // On "Almost Done!" page, OK button just navigates to login
+              navigate('/login');
             } else {
               handleNext();
             }
@@ -348,7 +368,7 @@ function BuyerSignup() {
             }
           }}
         >
-          {loading ? <CircularProgress size={24} color="inherit" /> : 'OK'}
+          {loading ? <CircularProgress size={24} color="inherit" /> : currentQuestion === questions.length + 1 ? 'Continue to Login' : 'OK'}
         </Button>
       </Box>
 

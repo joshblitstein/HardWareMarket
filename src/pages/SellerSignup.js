@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import {
@@ -44,6 +44,15 @@ function SellerSignup() {
 
   const { signup } = useAuth();
   const navigate = useNavigate();
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  // Trigger signup when "Almost Done!" page is reached
+  useEffect(() => {
+    if (currentQuestion === questions.length + 1 && !hasSubmitted && !loading) {
+      setHasSubmitted(true);
+      handleSubmit();
+    }
+  }, [currentQuestion]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleInputChange = (field) => (event) => {
     const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
@@ -67,23 +76,35 @@ function SellerSignup() {
       setError('');
       setLoading(true);
       
-      await signup(formData.workEmail, formData.password, {
+      // Build user data object, only including defined values
+      const userData = {
         userType: 'seller',
         companyName: formData.companyName,
         countryOfRegistration: formData.countryOfRegistration,
         registrationId: formData.registrationId,
-        incorporationProof: formData.incorporationProof?.name,
-        representativeId: formData.representativeId?.name,
         legalOwnership: formData.legalOwnership,
         understandVerification: formData.understandVerification,
-        bankingDetails: {
-          bankName: formData.bankName,
-          accountNumber: formData.accountNumber,
-          swiftBic: formData.swiftBic,
-        },
-      });
+      };
+
+      // Only add bankingDetails if it has values
+      if (formData.bankName || formData.accountNumber || formData.swiftBic) {
+        userData.bankingDetails = {};
+        if (formData.bankName) userData.bankingDetails.bankName = formData.bankName;
+        if (formData.accountNumber) userData.bankingDetails.accountNumber = formData.accountNumber;
+        if (formData.swiftBic) userData.bankingDetails.swiftBic = formData.swiftBic;
+      }
+
+      // Only add file fields if they exist
+      if (formData.incorporationProof?.name) {
+        userData.incorporationProof = formData.incorporationProof.name;
+      }
+      if (formData.representativeId?.name) {
+        userData.representativeId = formData.representativeId.name;
+      }
       
-      navigate('/login');
+      await signup(formData.workEmail, formData.password, userData);
+      
+      // Don't navigate here - let the OK button handle navigation
     } catch (error) {
       setError('Failed to create account: ' + error.message);
     }
@@ -309,7 +330,8 @@ function SellerSignup() {
           variant="contained"
           onClick={() => {
             if (currentQuestion === questions.length + 1) {
-              handleSubmit();
+              // On "Almost Done!" page, OK button just navigates to login
+              navigate('/login');
             } else {
               handleNext();
             }
@@ -336,7 +358,7 @@ function SellerSignup() {
             }
           }}
         >
-          {loading ? <CircularProgress size={24} color="inherit" /> : 'OK'}
+          {loading ? <CircularProgress size={24} color="inherit" /> : currentQuestion === questions.length + 1 ? 'Continue to Login' : 'OK'}
         </Button>
       </Box>
 
