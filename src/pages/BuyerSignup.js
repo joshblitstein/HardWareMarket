@@ -19,7 +19,6 @@ const questions = [
   { field: 'password', label: 'Password', type: 'password' },
   { field: 'legalCompanyName', label: 'Legal Company Name', type: 'text' },
   { field: 'countryOfRegistration', label: 'Country of Registration', type: 'text' },
-  { field: 'registrationId', label: 'Registration or Tax ID', type: 'text' },
   { field: 'contactName', label: 'Primary Contact Name', type: 'text' },
   { field: 'position', label: 'Position or Title', type: 'text' },
   { field: 'workPhone', label: 'Work Phone Number', type: 'tel' },
@@ -36,7 +35,6 @@ function BuyerSignup() {
     password: '',
     legalCompanyName: '',
     countryOfRegistration: '',
-    registrationId: '',
     contactName: '',
     position: '',
     workPhone: '',
@@ -90,7 +88,6 @@ function BuyerSignup() {
         companyName: formData.companyName,
         legalCompanyName: formData.legalCompanyName,
         countryOfRegistration: formData.countryOfRegistration,
-        registrationId: formData.registrationId,
         contactName: formData.contactName,
         position: formData.position,
         workPhone: formData.workPhone,
@@ -248,14 +245,14 @@ function BuyerSignup() {
             Almost done!
           </Typography>
           <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.7)', fontWeight: 300, mb: 4 }}>
-            Nimbus will review your submitted documents and verify your buyer profile.
+            You've been added to our waitlist!
           </Typography>
           <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.6)', fontWeight: 300 }}>
-            Once approved, your account will be marked as <strong style={{ color: '#9F7AEA' }}>Verified Buyer</strong> and you'll receive an email notification.
+            We'll review your application and reach out to you when you've been accepted.
           </Typography>
           <Box sx={{ mt: 4, p: 3, backgroundColor: 'rgba(159, 122, 234, 0.1)', borderRadius: 2, border: '1px solid rgba(159, 122, 234, 0.3)' }}>
             <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-              <strong>What's next?</strong> You'll be able to browse listings, make offers, and track deals from your buyer dashboard once verification is complete.
+              <strong>What's next?</strong> Once accepted, you'll be able to browse listings, make offers, and track deals from your buyer dashboard.
             </Typography>
           </Box>
         </Box>

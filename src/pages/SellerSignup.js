@@ -17,10 +17,6 @@ const questions = [
   { field: 'workEmail', label: 'Work Email', type: 'email' },
   { field: 'password', label: 'Password', type: 'password' },
   { field: 'countryOfRegistration', label: 'Country of Registration', type: 'text' },
-  { field: 'registrationId', label: 'Registration or Tax ID Number', type: 'text' },
-  { field: 'bankName', label: 'Company Bank Name', type: 'text' },
-  { field: 'accountNumber', label: 'IBAN or Account Number', type: 'text' },
-  { field: 'swiftBic', label: 'Swift/BIC', type: 'text' },
 ];
 
 function SellerSignup() {
@@ -32,10 +28,6 @@ function SellerSignup() {
     workEmail: '',
     password: '',
     countryOfRegistration: '',
-    registrationId: '',
-    bankName: '',
-    accountNumber: '',
-    swiftBic: '',
     legalOwnership: false,
     understandVerification: false,
     incorporationProof: null,
@@ -81,18 +73,9 @@ function SellerSignup() {
         userType: 'seller',
         companyName: formData.companyName,
         countryOfRegistration: formData.countryOfRegistration,
-        registrationId: formData.registrationId,
         legalOwnership: formData.legalOwnership,
         understandVerification: formData.understandVerification,
       };
-
-      // Only add bankingDetails if it has values
-      if (formData.bankName || formData.accountNumber || formData.swiftBic) {
-        userData.bankingDetails = {};
-        if (formData.bankName) userData.bankingDetails.bankName = formData.bankName;
-        if (formData.accountNumber) userData.bankingDetails.accountNumber = formData.accountNumber;
-        if (formData.swiftBic) userData.bankingDetails.swiftBic = formData.swiftBic;
-      }
 
       // Only add file fields if they exist
       if (formData.incorporationProof?.name) {
@@ -238,14 +221,14 @@ function SellerSignup() {
             Almost done!
           </Typography>
           <Typography variant="h6" sx={{ color: 'rgba(255,255,255,0.7)', fontWeight: 300, mb: 4 }}>
-            Nimbus will review your submitted documents and verify your seller profile.
+            You've been added to our waitlist!
           </Typography>
           <Typography variant="body1" sx={{ color: 'rgba(255,255,255,0.6)', fontWeight: 300 }}>
-            Once approved, your account will be marked as <strong style={{ color: '#9F7AEA' }}>Verified Seller</strong> and you'll receive an email notification.
+            We'll review your application and reach out to you when you've been accepted.
           </Typography>
           <Box sx={{ mt: 4, p: 3, backgroundColor: 'rgba(159, 122, 234, 0.1)', borderRadius: 2, border: '1px solid rgba(159, 122, 234, 0.3)' }}>
             <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.8)' }}>
-              <strong>What's next?</strong> You'll be able to create listings, manage your inventory, and receive offers from buyers once verification is complete.
+              <strong>What's next?</strong> Once accepted, you'll be able to create listings, manage your inventory, and receive offers from buyers.
             </Typography>
           </Box>
         </Box>
